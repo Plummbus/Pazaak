@@ -9,6 +9,8 @@ public class MainMenu : MonoBehaviour
     public GameObject[] questionGroupArr;
     public QAClass[] qaArr;
     public GameObject answerPanel;
+    public GameObject playerScript;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -29,10 +31,10 @@ public class MainMenu : MonoBehaviour
     {
         QAClass result = new QAClass();
 
-        GameObject q = questionGroup.transform.Find("Question").gameObject;
+        //GameObject q = questionGroup.transform.Find("Question").gameObject;
         GameObject a = questionGroup.transform.Find("Answer").gameObject;
 
-        result.quesiton = q.GetComponent<TMPro.TextMeshProUGUI>().text;  //might have to do <TMPText> instead
+        //result.quesiton = q.GetComponent<TMPro.TextMeshProUGUI>().text;  //might have to do <TMPText> instead
 
         //radio button answer
         if (a.GetComponent<ToggleGroup>() !=  null)
@@ -62,7 +64,10 @@ public class MainMenu : MonoBehaviour
                 Debug.Log("Object Answer does not exist!");
             }
             */
+            
+            //result.answer = a.transform.GetComponent<TMPro.TMP_InputField>().text;
             result.answer = a.transform.GetComponent<TMPro.TMP_InputField>().text;
+
 
 
         }
@@ -94,11 +99,28 @@ public class MainMenu : MonoBehaviour
         string s = "";
         for (int i = 0; i < qaArr.Length; i++)
         {
-            s = s + qaArr[i].quesiton + "\n";
+            //s = s + qaArr[i].quesiton + "\n";
+            if (i == qaArr.Length - 1)
+            {
+                s = s + "Player Name: " + qaArr[i].answer;
+                break;
+            }
             s = s + qaArr[i].answer + "\n\n";
+            
         }
 
         answerPanel.transform.Find("Text").GetComponent<TMPro.TextMeshProUGUI>().text = s;
+    }
+
+    public void confirmAndPlay()
+    {
+        playerScript.GetComponent<Player>().setName(qaArr[qaArr.Length - 1].answer);
+        for (int i = 0; i < qaArr.Length - 1; i++)
+        {
+            //playerScript.GetComponent<Player>().hand[i] = new Card(int.Parse(qaArr[i].answer));
+            playerScript.GetComponent<Player>().hand[i] = new HandCard(int.Parse(qaArr[i].answer));
+            Debug.Log(i + ": " + qaArr[i].answer);
+        }
     }
 
     public void QuitGame()
@@ -112,6 +134,6 @@ public class MainMenu : MonoBehaviour
 [System.Serializable]
 public class QAClass
 {
-    public string quesiton = "";
+    //public string name = "";
     public string answer = "";
 }

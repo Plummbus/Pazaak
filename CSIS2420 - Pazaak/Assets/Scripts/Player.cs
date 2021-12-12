@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]
-    private string playerName;
-    [SerializeField]
-    private int credits;
-    [SerializeField]
-    private int betAmount;
 
-    public Card[] hand;
+    public HandCard[] hand;
+    public string playerName;
+    public int credits;
+    public int betAmount;
 
 
     public void setName(string n)
@@ -26,7 +23,7 @@ public class Player : MonoBehaviour
 
     public string getName()
     {
-        return this.name;
+        return this.playerName;
     }
 
     public int getCredits()
@@ -58,4 +55,15 @@ public class Player : MonoBehaviour
     }
 
 
+}
+
+[System.Serializable]
+public class HandCard
+{
+    public int modifier;
+
+    public HandCard(int value)
+    {
+        this.modifier = value;
+    }
 }
